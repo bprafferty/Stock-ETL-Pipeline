@@ -7,6 +7,13 @@ from dateutil.relativedelta import relativedelta
 import config
 
 def api_request():
+    """Performs a GET request for historic stock prices for
+    each stock in the list symbols. 
+
+    Returns:
+        list: list of dictionaries in JSON format. 
+        Ex: [{'candles': [{'open': 31.85, 'high': 32.0631, 'low': 31.25, 'close': 31.45, 'volume': 172496, 'datetime': 1485928800000}]}]
+    """
     # Function to turn a datetime object into unix
     def unix_time_millis(dt):
         epoch = datetime.utcfromtimestamp(0)
@@ -48,10 +55,21 @@ def api_request():
 
         data_list.append(request.json())
         time.sleep(.5)
-
     return data_list
 
 def parse_json(data_list):
+    """Iterates through the list of dictionaries in JSON format
+    and aggregates the results into a clean table.
+
+    Args:
+        data_list (list): list of dictionaries in JSON format. 
+        Ex: [{'candles': [{'open': 31.85, 'high': 32.0631, 'low': 31.25, 'close': 31.45, 'volume': 172496, 'datetime': 1485928800000}]}]
+
+    Returns:
+        Pandas DataFrame: cleaned data in table format. 
+        Ex:         product symbol   open     high    low  close  volume        date
+             0  Q2 Platform   QTWO  31.85  32.0631  31.25  31.45  172496  2017-02-01
+    """
     # Create a list for each data point and loop through the json, adding the data to the lists
     product_l, symbl_l, open_l, high_l, low_l, close_l, volume_l, date_l = [], [], [], [], [], [], [], []
     products = {'QTWO': 'Q2 Platform', 
@@ -94,6 +112,5 @@ def parse_json(data_list):
     # Format the dates
     df['date'] = pd.to_datetime(df['date'], unit='ms')
     df['date'] = df['date'].dt.strftime('%Y-%m-%d')
-
     return df
     

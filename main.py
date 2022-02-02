@@ -8,6 +8,10 @@ import config as c
 CSV_STORAGE = r'data\stock_data.csv'
 
 def etl_pipeline():
+    """Main function to drive the ELT pipeline. Yields
+    between each step to allow the alive_bar on the command
+    line to update.
+    """
     # Extract json data from TDAmeritrade API
     json_data = e.api_request()
     yield
