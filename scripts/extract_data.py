@@ -26,7 +26,7 @@ def api_request():
     today_ms = unix_time_millis(today)
 
     # Companies to scrape
-    symbols = ['QTWO', 'NCNO', 'ALKT', 'NCR', 'FIS']
+    symbols = ['META', 'AMZN', 'AAPL', 'NFLX', 'GOOGL', 'MSFT']
     
     # Get the price history for each stock. This can take a while
     consumer_key = config.CONSUMER_KEY
@@ -72,11 +72,13 @@ def parse_json(data_list):
     """
     # Create a list for each data point and loop through the json, adding the data to the lists
     product_l, symbl_l, open_l, high_l, low_l, close_l, volume_l, date_l = [], [], [], [], [], [], [], []
-    products = {'QTWO': 'Q2 Platform', 
-                'NCNO': 'nCino Bank Operating System', 
-                'ALKT': 'Alkami Banking Solutions', 
-                'NCR': 'NCR Digital Insight', 
-                'FIS': 'FIS Core Banking'}
+    products = {'META': 'Facebook', 
+                'AMZN': 'Amazon', 
+                'AAPL': 'Apple', 
+                'NFLX': 'Netlfix', 
+                'GOOGL': 'Google',
+                'MSFT': 'Microsoft',
+                }
     for data in data_list:
         try:
             symbl_name = data['symbol']
